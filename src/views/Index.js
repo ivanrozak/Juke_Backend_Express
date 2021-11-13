@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Popconfirm, Select, Input, Tag } from 'antd';
 import moment from 'moment';
-import { DeleteTwoTone } from '@ant-design/icons';
+import { DeleteTwoTone, PlusOutlined, EditTwoTone } from '@ant-design/icons';
 import { deleteUserData, getDataEmployers } from '../API/API';
 import CustomModal from '../components/CustomModal';
 import ImageModal from '../components/ImageModal';
@@ -9,17 +9,19 @@ const { Option } = Select;
 const { Search } = Input;
 
 function Index() {
-  const [data, setData] = useState([]);
+  const [dataTable, setDataTable] = useState([]);
   const [loading, setLoading] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [trigger, setTrigger] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [sendData, setSendData] = useState({});
 
   const fetchAPI = () => {
     setLoading(true);
     getDataEmployers(firstName)
       .then((result) => {
         console.log(result);
-        setData(result.data.data);
+        setDataTable(result.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -78,7 +80,15 @@ function Index() {
       width: 120,
       render: (dataIndex, record) => (
         <div style={{ display: 'flex' }}>
-          <CustomModal data={record} openModal={false} />
+          <Button
+            icon={<EditTwoTone />}
+            type='primary'
+            ghost
+            onClick={() => {
+              setModalVisible(true);
+              setSendData(record);
+            }}
+          />
           <Popconfirm
             title='Sure want to delete?'
             okText='Yes'
@@ -123,20 +133,30 @@ function Index() {
           defaultValue={firstName}
           style={{ width: 240 }}
         />
-        <CustomModal
-          openModal={true}
-          setTrigger={setTrigger}
-          trigger={trigger}
-        />
+        <Button
+          onClick={() => {
+            setModalVisible(true);
+            setSendData({});
+          }}
+        >
+          <PlusOutlined /> Add Employee
+        </Button>
       </div>
       <div>
         <Table
           loading={loading}
           columns={columns}
-          dataSource={data}
+          dataSource={dataTable}
           pagination={{ pageSize: 4 }}
         />
       </div>
+      <CustomModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        sendData={sendData}
+        trigger={trigger}
+        setTrigger={setTrigger}
+      />
     </div>
   );
 }
