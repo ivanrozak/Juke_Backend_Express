@@ -60,6 +60,7 @@ const CustomModal = (props) => {
       name: 'emailAddress',
       format: 'email',
       type: 'input',
+      required: true,
     },
     {
       id: 4,
@@ -67,6 +68,7 @@ const CustomModal = (props) => {
       name: 'phoneNumber',
       format: 'number',
       type: 'input',
+      required: true,
     },
     {
       id: 5,
@@ -74,6 +76,7 @@ const CustomModal = (props) => {
       name: 'ktpNumber',
       format: 'number',
       type: 'input',
+      required: true,
     },
     {
       id: 6,

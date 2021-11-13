@@ -106,9 +106,7 @@ function Index() {
     },
   ];
   const handleDelete = (key) => {
-    console.log(key);
     deleteUserData(key).then((result) => {
-      console.log(result);
       if (result.status === 200) {
         setTrigger(!trigger);
       }
