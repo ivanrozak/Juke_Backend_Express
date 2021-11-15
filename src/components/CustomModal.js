@@ -152,9 +152,15 @@ const CustomModal = (props) => {
     });
   };
 
+  const onReset = () => {
+    form.resetFields();
+  };
+
   useEffect(() => {
     if (sendData.userId) {
       onFill();
+    } else {
+      onReset();
     }
   }, [modalVisible]);
 
